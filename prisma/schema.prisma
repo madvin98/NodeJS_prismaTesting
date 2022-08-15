@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
+  Product Product[]
+}
+
+model Product {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  price      Int       @default(999)
+  createdAt  DateTime  @default(now())
+  categoryID Int?
+  Category   Category? @relation(fields: [categoryID], references: [id])
+}
